@@ -21,8 +21,6 @@ extension PokemonAPI: TargetType {
         switch  self {
         case .getPokemonTypes:
             return "/type"
-        default:
-            return "/"
         }
     }
     

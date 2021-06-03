@@ -7,13 +7,13 @@
 
 final class GetPokemonTypesUseCaseImpl: GetPokemonTypesUseCase {
     
-    let pokemonTypesRepository: PokemonTypeRepository
+    let pokemonTypeRepository: PokemonTypeRepository
     
-    init(pokemonTypesRepository: PokemonTypeRepository) {
-        self.pokemonTypesRepository = pokemonTypesRepository
+    init(pokemonTypeRepository: PokemonTypeRepository) {
+        self.pokemonTypeRepository = pokemonTypeRepository
     }
     
     func getPokemonTypes(completion: @escaping (Result<[PokemonType], Error>) -> Void) {
-        self.pokemonTypesRepository.getPokemonTypes(completion: completion)
+        self.pokemonTypeRepository.getPokemonTypes(completion: completion)
     }
 }

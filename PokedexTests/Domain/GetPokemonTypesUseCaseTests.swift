@@ -12,7 +12,7 @@ final class GetPokemonTypesUseCaseTests: XCTestCase {
 
     func test_getPokemonTypes_whenCalled_shouldReturnsPokemonTypeList() {
         let client = PokemonTypesRepositoryMock(result: .success([PokemonType(name: "test")]))
-        let sut = GetPokemonTypesUseCaseImpl(pokemonTypesRepository: client)
+        let sut = GetPokemonTypesUseCaseImpl(pokemonTypeRepository: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes success")
         
         sut.getPokemonTypes(completion: { result in
@@ -29,7 +29,7 @@ final class GetPokemonTypesUseCaseTests: XCTestCase {
     
     func test_getPokemonTypes_whenCalled_shouldReturnsFailure() {
         let client = PokemonTypesRepositoryMock(result: .failure(GetPokemonTypesUseCaseMockError.generic))
-        let sut = GetPokemonTypesUseCaseImpl(pokemonTypesRepository: client)
+        let sut = GetPokemonTypesUseCaseImpl(pokemonTypeRepository: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes failure")
         
         sut.getPokemonTypes(completion: { result in
@@ -46,7 +46,7 @@ final class GetPokemonTypesUseCaseTests: XCTestCase {
     
     func test_getPokemonTypes_whenCalled_shouldReturnsAnEmptyPokemonTypesList() {
         let client = PokemonTypesRepositoryMock(result: .success([]))
-        let sut = GetPokemonTypesUseCaseImpl(pokemonTypesRepository: client)
+        let sut = GetPokemonTypesUseCaseImpl(pokemonTypeRepository: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes empty list")
         
         sut.getPokemonTypes(completion: { result in
