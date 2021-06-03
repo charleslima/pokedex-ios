@@ -7,9 +7,9 @@
 
 final class GetPokemonTypesUseCaseImpl: GetPokemonTypesUseCase {
     
-    let pokemonTypesRepository: PokemonTypesRepository
+    let pokemonTypesRepository: PokemonTypeRepository
     
-    init(pokemonTypesRepository: PokemonTypesRepository) {
+    init(pokemonTypesRepository: PokemonTypeRepository) {
         self.pokemonTypesRepository = pokemonTypesRepository
     }
     

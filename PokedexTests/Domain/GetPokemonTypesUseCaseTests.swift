@@ -10,7 +10,7 @@ import XCTest
     
 final class GetPokemonTypesUseCaseTests: XCTestCase {
 
-    func test_getPokemonTypes_whenCalledAndClientReturnsSuccess_shouldReturnsPokemonTypeList() {
+    func test_getPokemonTypes_whenCalled_shouldReturnsPokemonTypeList() {
         let client = PokemonTypesRepositoryMock(result: .success([PokemonType(name: "test")]))
         let sut = GetPokemonTypesUseCaseImpl(pokemonTypesRepository: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes success")
@@ -61,7 +61,7 @@ final class GetPokemonTypesUseCaseTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    final class PokemonTypesRepositoryMock: PokemonTypesRepository {
+    final class PokemonTypesRepositoryMock: PokemonTypeRepository {
         
         let result: Result<[PokemonType], Error>
         
