@@ -3,7 +3,12 @@
 
 target 'Pokedex' do
   use_frameworks!
-
+  
+  pod 'Kingfisher'
+  pod 'Moya'
+  pod 'Swinject'
+  pod 'Shimmer'
+  
   target 'PokedexTests' do
     inherit! :search_paths
     
