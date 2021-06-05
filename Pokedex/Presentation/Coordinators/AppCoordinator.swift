@@ -11,6 +11,8 @@ final class AppCoordinator: Coordinator {
     
     private let window: UIWindow?
     private let container: Container
+    private var pokemonsCoordinator: PokemonsCoordinator?
+    
     
     init(window: UIWindow?,
          container: Container) {
@@ -19,7 +21,7 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let pokemonTypesView = container.resolve(PokemonTypesView.self)!
-        self.window?.rootViewController = pokemonTypesView
+        self.pokemonsCoordinator = PokemonsCoordinator(window: window, container: container)
+        self.pokemonsCoordinator?.start()
     }
 }

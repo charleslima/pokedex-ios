@@ -11,10 +11,11 @@ import XCTest
 final class PokemonTypeRepositoryTests: XCTestCase {
     
     func test_getPokemonTypes_whenCalled_shouldReturnsPokemonTypeList() {
+        let mockJSON = "[{\"name\": \"test\", \"url\": \"https:/teste/1\"}]"
         let mockResult = try! JSONDecoder().decode([PokemonTypeDTO].self,
-                                                   from: "[{\"name\": \"test\"}]".data(using: .utf8)!)
+                                                   from: mockJSON.data(using: .utf8)!)
         
-        let client = PokemonRemoteDataSourceMock(result: .success(mockResult))
+        let client = PokemonRemoteDataSourceMock(getPokemonTypesResult: .success(mockResult))
         let sut = PokemonTypeRepositoryImpl(pokemonRemoteDataSource: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes success")
         
@@ -31,15 +32,17 @@ final class PokemonTypeRepositoryTests: XCTestCase {
     }
     
     func test_getPokemonTypes_whenCalled_shouldProperlyMapToDomainObject() {
+        let mockJSON = "[{\"name\": \"test\", \"url\": \"https:/teste/2\"}]"
         let mockResult = try! JSONDecoder().decode([PokemonTypeDTO].self,
-                                                   from: "[{\"name\": \"test\"}]".data(using: .utf8)!)
+                                                   from: mockJSON.data(using: .utf8)!)
         
-        let client = PokemonRemoteDataSourceMock(result: .success(mockResult))
+        let client = PokemonRemoteDataSourceMock(getPokemonTypesResult: .success(mockResult))
         let sut = PokemonTypeRepositoryImpl(pokemonRemoteDataSource: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes success")
         
         sut.getPokemonTypes(completion: { result in
             if case .success(let pokemonTypeList) = result {
+                XCTAssertEqual(pokemonTypeList[0].id, 2)
                 XCTAssertEqual(pokemonTypeList[0].name, mockResult[0].name)
             } else {
                 XCTFail()
@@ -51,7 +54,7 @@ final class PokemonTypeRepositoryTests: XCTestCase {
     }
     
     func test_getPokemonTypes_whenCalled_shouldReturnsFailure() {
-        let client = PokemonRemoteDataSourceMock(result: .failure(PokemonTypeRepositoryMockError.generic))
+        let client = PokemonRemoteDataSourceMock(getPokemonTypesResult: .failure(PokemonTypeRepositoryMockError.generic))
         let sut = PokemonTypeRepositoryImpl(pokemonRemoteDataSource: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes failure")
         
@@ -68,7 +71,7 @@ final class PokemonTypeRepositoryTests: XCTestCase {
     }
     
     func test_getPokemonTypes_whenCalled_shouldReturnsAnEmptyPokemonTypesList() {
-        let client = PokemonRemoteDataSourceMock(result: .success([]))
+        let client = PokemonRemoteDataSourceMock(getPokemonTypesResult: .success([]))
         let sut = PokemonTypeRepositoryImpl(pokemonRemoteDataSource: client)
         let expectation = XCTestExpectation(description: "getPokemonTypes empty list")
         
@@ -82,19 +85,6 @@ final class PokemonTypeRepositoryTests: XCTestCase {
         })
         
         wait(for: [expectation], timeout: 1.0)
-    }
-    
-    final class PokemonRemoteDataSourceMock: PokemonRemoteDataSource {
-        
-        let result: Result<[PokemonTypeDTO], Error>
-        
-        init(result: Result<[PokemonTypeDTO], Error>) {
-            self.result = result
-        }
-        
-        func getPokemonTypes(completion: @escaping (Result<[PokemonTypeDTO], Error>) -> Void) {
-            completion(result)
-        }
     }
     
     enum PokemonTypeRepositoryMockError: Error {

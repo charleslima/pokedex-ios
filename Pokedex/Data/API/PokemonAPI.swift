@@ -9,6 +9,7 @@ import Moya
 
 enum PokemonAPI {
     case getPokemonTypes
+    case getType(id: Int)
 }
 
 extension PokemonAPI: TargetType {
@@ -21,6 +22,8 @@ extension PokemonAPI: TargetType {
         switch  self {
         case .getPokemonTypes:
             return "/type"
+        case .getType(let id):
+            return "/type/\(id)"
         }
     }
     

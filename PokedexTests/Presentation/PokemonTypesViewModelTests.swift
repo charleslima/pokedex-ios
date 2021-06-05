@@ -10,9 +10,9 @@ import XCTest
 
 final class PokemonTypesViewModelTests: XCTestCase {
     
-    func test_didGetPokemonTypes_whenGetPokemonTypesIsCalled_shouldReturnPokemonTypeList() {
+    func test_pokemonTypes_whenGetPokemonTypesIsCalled_shouldNotBeEmpty() {
         let getPokemonTypesUseCaseMock = GetPokemonTypesUseCaseMock(
-            result: .success([PokemonType(name: "test")])
+            result: .success([PokemonType(id: 1, name: "test")])
         )
         
         let sut = PokemonTypesViewModel(getPokemonTypesUseCase: getPokemonTypesUseCaseMock)
@@ -47,7 +47,7 @@ final class PokemonTypesViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func test_didGetPokemonTypes_whenGetPokemonTypesIsCalled_shouldReturnAnEmptyList() {
+    func test_pokemonTypes_whenGetPokemonTypesIsCalled_shouldBeEmpty() {
         let getPokemonTypesUseCaseMock = GetPokemonTypesUseCaseMock(
             result: .success([])
         )
@@ -64,19 +64,6 @@ final class PokemonTypesViewModelTests: XCTestCase {
         sut.getPokemonTypes()
         
         wait(for: [expectation], timeout: 1.0)
-    }
-    
-    final class GetPokemonTypesUseCaseMock: GetPokemonTypesUseCase {
-        
-        let result: Result<[PokemonType], Error>
-        
-        init(result: Result<[PokemonType], Error>) {
-            self.result = result
-        }
-        
-        func getPokemonTypes(completion: @escaping (Result<[PokemonType], Error>) -> Void) {
-            completion(result)
-        }
     }
     
     enum PokemonTypesViewModelMockError: Error {

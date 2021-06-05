@@ -1,13 +1,13 @@
 //
-//  PokemonTypesScreen.swift
+//  PokemonsScreen.swift
 //  Pokedex
 //
-//  Created by Charles de Jesus Lima on 03/06/21.
+//  Created by Charles de Jesus Lima on 05/06/21.
 //
 
 import UIKit
 
-final class PokemonTypesScreen: UIView {
+final class PokemonsScreen: UIView {
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()

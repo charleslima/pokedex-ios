@@ -16,11 +16,20 @@ final class PokemonTypeRepositoryImpl: PokemonTypeRepository {
     func getPokemonTypes(completion: @escaping (Result<[PokemonType], Error>) -> Void) {
         self.pokemonRemoteDataSource.getPokemonTypes { (result) in
             switch result {
-            case .success(let pokemonDTOs):
-                completion(.success(pokemonDTOs.map({ PokemonType(name: $0.name) })))
+            case .success(let pokemonTypesDTOs):
+                completion(.success(
+                            pokemonTypesDTOs.compactMap({ self.mapPokemonType(from: $0) }))
+                )
             case .failure(let error):
                 completion(.failure(error))
             }
         }
+    }
+    
+    private func mapPokemonType(from pokemonTypeDTO: PokemonTypeDTO) -> PokemonType? {
+        guard let idString = try? pokemonTypeDTO.url.asURL().lastPathComponent,
+              let id = Int(idString) else { return nil }
+        
+        return PokemonType(id: id, name: pokemonTypeDTO.name)
     }
 }

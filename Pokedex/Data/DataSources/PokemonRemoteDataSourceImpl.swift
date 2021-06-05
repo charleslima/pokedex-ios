@@ -34,4 +34,24 @@ final class PokemonRemoteDataSourceImpl: PokemonRemoteDataSource {
             }
         }
     }
+    
+    func getPokemonsBy(typeID: Int, completion: @escaping (Result<[PokemonDTO], Error>) -> Void) {
+        provider.request(.getType(id: typeID)) { (response) in
+            switch response {
+            case .success(let result):
+                if 200...299 ~= result.statusCode {
+                    do {
+                        let pokemons = try result.map([PokemonDTO].self, atKeyPath: "pokemon.pokemon")
+                        completion(.success(pokemons))
+                    } catch {
+                        completion(.failure(PokemonRemoteDataSourceError.mapping))
+                    }
+                } else {
+                    completion(.failure(PokemonRemoteDataSourceError.http(result.statusCode)))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }

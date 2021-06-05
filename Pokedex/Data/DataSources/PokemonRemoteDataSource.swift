@@ -9,6 +9,7 @@ import Foundation
 
 protocol PokemonRemoteDataSource {
     func getPokemonTypes(completion: @escaping (Result<[PokemonTypeDTO], Error>) -> Void)
+    func getPokemonsBy(typeID: Int, completion: @escaping (Result<[PokemonDTO], Error>) -> Void)
 }
 
 enum PokemonRemoteDataSourceError: LocalizedError {
