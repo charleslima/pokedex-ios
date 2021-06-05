@@ -25,6 +25,10 @@ final class DependencyInjectionManager {
         self.container.register(PokemonTypesScreen.self) { _ in 
             return PokemonTypesScreen()
         }
+        
+        self.container.register(PokemonsScreen.self) { _ in
+            return PokemonsScreen()
+        }
     }
     
     private func registerViews() {
@@ -32,12 +36,24 @@ final class DependencyInjectionManager {
             return PokemonTypesView(screen: resolver.resolve(PokemonTypesScreen.self)!,
                                     viewModel: resolver.resolve(PokemonTypesViewModel.self)!)
         }
+        
+        self.container.register(PokemonsView.self) { (resolver, typeID: Int) in
+            return PokemonsView(screen: resolver.resolve(PokemonsScreen.self)!,
+                                viewModel: resolver.resolve(PokemonsViewModel.self)!,
+                                typeID: typeID)
+        }
     }
     
     private func registerViewModels() {
         self.container.register(PokemonTypesViewModel.self) { resolver in
             PokemonTypesViewModel(getPokemonTypesUseCase: resolver.resolve(
                                     GetPokemonTypesUseCase.self)!
+            )
+        }
+        
+        self.container.register(PokemonsViewModel.self) { resolver in
+            PokemonsViewModel(getPokemonsUseCase: resolver.resolve(
+                                GetPokemonsUseCase.self)!
             )
         }
     }
@@ -48,11 +64,23 @@ final class DependencyInjectionManager {
                 pokemonTypeRepository: resolver.resolve(PokemonTypeRepository.self)!
             )
         }
+        
+        self.container.register(GetPokemonsUseCase.self) { resolver in
+            GetPokemonsUseCaseImpl(
+                pokemonRepository: resolver.resolve(PokemonRepository.self)!
+            )
+        }
     }
     
     private func registerRepositories() {
         self.container.register(PokemonTypeRepository.self) { resolver in
             PokemonTypeRepositoryImpl(
+                pokemonRemoteDataSource: resolver.resolve(PokemonRemoteDataSource.self)!
+            )
+        }
+        
+        self.container.register(PokemonRepository.self) { resolver in
+            PokemonRepositoryImpl(
                 pokemonRemoteDataSource: resolver.resolve(PokemonRemoteDataSource.self)!
             )
         }

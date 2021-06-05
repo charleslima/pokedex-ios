@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol PokemonTypesViewDelegate: AnyObject {
+    func userDidTapPokemonType(typeID: Int)
+}
+
 class PokemonTypesView: UIViewController {
     
     private let screen: PokemonTypesScreen
     private let viewModel: PokemonTypesViewModel
+    weak var delegate: PokemonTypesViewDelegate?
     
     init(screen: PokemonTypesScreen,
          viewModel: PokemonTypesViewModel) {
@@ -51,6 +56,11 @@ extension PokemonTypesView: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         cell.textLabel?.text = self.viewModel.pokemonTypes[indexPath.row].name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let pokemonTypeID = self.viewModel.pokemonTypes[indexPath.row].id
+        self.delegate?.userDidTapPokemonType(typeID: pokemonTypeID)
     }
     
 }
