@@ -27,9 +27,6 @@ final class PokemonTypeRepositoryImpl: PokemonTypeRepository {
     }
     
     private func mapPokemonType(from pokemonTypeDTO: PokemonTypeDTO) -> PokemonType? {
-        guard let idString = try? pokemonTypeDTO.url.asURL().lastPathComponent,
-              let id = Int(idString) else { return nil }
-        
-        return PokemonType(id: id, name: pokemonTypeDTO.name)
+        return PokemonType(id: pokemonTypeDTO.id, name: pokemonTypeDTO.name)
     }
 }

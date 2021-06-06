@@ -21,7 +21,7 @@ final class PokemonRemoteDataSourceImpl: PokemonRemoteDataSource {
             case .success(let result):
                 if 200...299 ~= result.statusCode {
                     do {
-                        let pokemonTypeDTOs = try result.map([PokemonTypeDTO].self, atKeyPath: "results")
+                        let pokemonTypeDTOs = try result.map([PokemonTypeDTO].self, atKeyPath: "data.types")
                         completion(.success(pokemonTypeDTOs))
                     } catch {
                         completion(.failure(PokemonRemoteDataSourceError.mapping))
@@ -36,12 +36,12 @@ final class PokemonRemoteDataSourceImpl: PokemonRemoteDataSource {
     }
     
     func getPokemonsBy(typeID: Int, completion: @escaping (Result<[PokemonDTO], Error>) -> Void) {
-        provider.request(.getType(id: typeID)) { (response) in
+        provider.request(.getPokemonsByType(id: typeID)) { (response) in
             switch response {
             case .success(let result):
                 if 200...299 ~= result.statusCode {
                     do {
-                        let pokemons = try result.map([PokemonDTO].self, atKeyPath: "pokemon.pokemon")
+                        let pokemons = try result.map([PokemonDTO].self, atKeyPath: "data.pokemons")
                         completion(.success(pokemons))
                     } catch {
                         completion(.failure(PokemonRemoteDataSourceError.mapping))

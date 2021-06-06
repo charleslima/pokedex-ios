@@ -11,8 +11,9 @@ import XCTest
 final class PokemonRepositoryTests: XCTestCase {
     
     func test_getPokemonsByType_whenCalled_shouldReturnsPokemonList() {
+        let mockJSON = "[{\"id\": 1, \"name\": \"test\", \"specy\": {\"color\":{\"name\": \"red\"}}}]"
         let mockResult = try! JSONDecoder().decode([PokemonDTO].self,
-                                                   from: "[{\"name\": \"test\"}]".data(using: .utf8)!)
+                                                   from: mockJSON.data(using: .utf8)!)
         
         let client = PokemonRemoteDataSourceMock(getPokemonsByTypeResult: .success(mockResult))
         let sut = PokemonRepositoryImpl(pokemonRemoteDataSource: client)
@@ -31,8 +32,9 @@ final class PokemonRepositoryTests: XCTestCase {
     }
     
     func test_getPokemonsByType_whenCalled_shouldProperlyMapToDomainObject() {
+        let mockJSON = "[{\"id\": 1, \"name\": \"test\", \"specy\": {\"color\":{\"name\": \"red\"}}}]"
         let mockResult = try! JSONDecoder().decode([PokemonDTO].self,
-                                                   from: "[{\"name\": \"test\"}]".data(using: .utf8)!)
+                                                   from: mockJSON.data(using: .utf8)!)
         
         let client = PokemonRemoteDataSourceMock(getPokemonsByTypeResult: .success(mockResult))
         let sut = PokemonRepositoryImpl(pokemonRemoteDataSource: client)
@@ -41,6 +43,7 @@ final class PokemonRepositoryTests: XCTestCase {
         sut.getPokemonsBy(typeID: 1, completion: { result in
             if case .success(let pokemons) = result {
                 XCTAssertEqual(pokemons[0].name, mockResult[0].name)
+                XCTAssertEqual(pokemons[0].colorName, mockResult[0].specy.color.name)
             } else {
                 XCTFail()
             }
