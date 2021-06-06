@@ -26,9 +26,10 @@ final class PokemonRepositoryImpl: PokemonRepository {
     
     func mapPokemon(from pokemonDTO: PokemonDTO) -> Pokemon? {
         let imageURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(pokemonDTO.id).png"
-        
+        let abilities = pokemonDTO.abilities?.map({ $0.ability.name }) ?? []
         return Pokemon(name: pokemonDTO.name,
                        imageURL: imageURL,
-                       colorName: pokemonDTO.specy.color.name)
+                       colorName: pokemonDTO.specy.color.name,
+                       abilities: abilities)
     }
 }

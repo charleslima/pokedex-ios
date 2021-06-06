@@ -17,7 +17,7 @@ final class PokemonCell: UITableViewCell {
     private lazy var backgroundCardView: UIView = {
         let backgroundCardView = UIView()
         backgroundCardView.prepareForConstraints()
-        backgroundCardView.layer.cornerRadius = 12
+        backgroundCardView.layer.cornerRadius = 8
         backgroundCardView.backgroundColor = UIColor.lightGray
         backgroundCardView.setShadow(UIColor.lightGray, opacity: 0.4,
                                      offset: CGSize(width: 4, height: 4), radius: 8)
@@ -31,6 +31,14 @@ final class PokemonCell: UITableViewCell {
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont(name: "ArialRoundedMTBold", size: 17)
         return titleLabel
+    }()
+    
+    private lazy var abilitiesStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.prepareForConstraints()
+        stackView.axis = .horizontal
+        stackView.spacing = 4
+        return stackView
     }()
     
     private lazy var watterMarkImageView: UIImageView = {
@@ -79,6 +87,20 @@ final class PokemonCell: UITableViewCell {
         self.addSubview(pokemonImageView)
         self.backgroundCardView.addSubview(watterMarkImageView)
         self.backgroundCardView.addSubview(titleLabel)
+        self.backgroundCardView.addSubview(abilitiesStackView)
+        
+        self.pokemon.abilities.prefix(2).forEach({ ability in
+            let abilityLabel = UILabel()
+            abilityLabel.prepareForConstraints()
+            abilityLabel.font = UIFont(name: "ArialRoundedMTBold", size: 12)
+            abilityLabel.textColor = .white
+            abilityLabel.text = "  \(ability.capitalized)  "
+            abilityLabel.backgroundColor = UIColor.culore(self.pokemon.colorName)?.darker(by: 20) ?? .black
+            abilityLabel.layer.cornerRadius = 4
+            abilityLabel.layer.masksToBounds = true
+            
+            self.abilitiesStackView.addArrangedSubview(abilityLabel)
+        })
     }
     
     private func setupViewContraints() {
@@ -88,8 +110,8 @@ final class PokemonCell: UITableViewCell {
         self.backgroundCardView.pinLeft(24)
         
         self.pokemonImageView.pinTop()
-        self.pokemonImageView.pinRightInRelation(to: self.backgroundCardView.rightAnchor, 8)
-        self.pokemonImageView.pinBottomInRelation(to: self.backgroundCardView.bottomAnchor)
+        self.pokemonImageView.pinRightInRelation(to: self.backgroundCardView.rightAnchor)
+        self.pokemonImageView.pinBottomInRelation(to: self.backgroundCardView.bottomAnchor  )
         self.pokemonImageView.constraintWidth(toAnchor: self.pokemonImageView.heightAnchor)
         
         self.watterMarkImageView.pinTop()
@@ -97,15 +119,19 @@ final class PokemonCell: UITableViewCell {
         self.watterMarkImageView.pinRight()
         self.watterMarkImageView.constraintWidth(toAnchor: self.watterMarkImageView.heightAnchor, multiplier: 1.3)
 
-        self.titleLabel.pinTop(24)
+        self.titleLabel.pinTop(16)
         self.titleLabel.pinLeft(16)
+        
+        self.abilitiesStackView.pinLeft(16)
+        self.abilitiesStackView.pinTopInRelation(to: self.titleLabel.bottomAnchor, 8)
+        self.abilitiesStackView.constraintHeight(24)
         
     }
     
     private func setupBackgroundCardView() {
         if self.needsSetupBackgroundCardView {
             let topColor = UIColor.culore(pokemon.colorName) ?? .orange
-            let bottomColor = topColor.darker(by: 30) ?? .orange
+            let bottomColor = topColor.darker(by: 10) ?? .orange
             self.backgroundCardView.setGradientBackground(topColor: topColor,
                                                           bottomColor: bottomColor)
             self.backgroundCardView.setShadow(bottomColor, opacity: 0.4,

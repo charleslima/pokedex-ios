@@ -37,7 +37,7 @@ extension PokemonAPI: TargetType {
                                       encoding: JSONEncoding.default)
         case .getPokemonsByType(let typeID):
             let query = """
-            query { pokemons: pokemon_v2_pokemon(where: { pokemon_v2_pokemontypes: { pokemon_v2_type: { id: {_eq: \(typeID)} } } }) { id name specy: pokemon_v2_pokemonspecy { color: pokemon_v2_pokemoncolor { name } } }}
+            query { pokemons: pokemon_v2_pokemon(where: { pokemon_v2_pokemontypes: { pokemon_v2_type: { id: {_eq: \(typeID)} } } }) { id name abilities: pokemon_v2_pokemonabilities { ability: pokemon_v2_ability { name }} specy: pokemon_v2_pokemonspecy { color: pokemon_v2_pokemoncolor { name } } }}
             """
             return .requestParameters(parameters: ["query": query],
                                       encoding: JSONEncoding.default)

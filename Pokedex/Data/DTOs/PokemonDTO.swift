@@ -14,8 +14,16 @@ class PokemonDTO: Decodable {
         }
     }
     
+    class AbilityRoot: Decodable {
+        let ability: Ability
+        
+        class Ability: Decodable {
+            let name: String
+        }
+    }
+    
     let id: Int
     let name: String
     let specy: Specy
-    
+    let abilities: [AbilityRoot]?
 }
