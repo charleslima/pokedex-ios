@@ -9,11 +9,14 @@ final class Pokemon {
     
     let name: String
     let imageURL: String
+    let colorName: String
     
     init(name: String,
-         imageURL: String) {
+         imageURL: String,
+         colorName: String) {
         self.name = name
         self.imageURL = imageURL
+        self.colorName = colorName
     }
     
 }

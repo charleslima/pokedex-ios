@@ -7,5 +7,5 @@
 
 class PokemonTypeDTO: Decodable {
     let name: String
-    let url: String
+    let id: Int
 }

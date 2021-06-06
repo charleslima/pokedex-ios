@@ -11,7 +11,7 @@ import XCTest
 final class GetPokemonsUseCaseTests: XCTestCase {
 
     func test_getPokemonsByType_whenCalled_shouldReturnsPokemonList() {
-        let client = PokemonRepositoryMock(result: .success([Pokemon(name: "test")]))
+        let client = PokemonRepositoryMock(result: .success([Pokemon(name: "test", imageURL: "teste", colorName: "red")]))
         let sut = GetPokemonsUseCaseImpl(pokemonRepository: client)
         let expectation = XCTestExpectation(description: "getPokemonsByType success")
         

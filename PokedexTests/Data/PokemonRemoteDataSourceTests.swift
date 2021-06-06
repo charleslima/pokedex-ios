@@ -14,7 +14,7 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     // MARK: - Pokemon Types
     
     func test_getPokemonTypes_whenCalled_shouldReturnsPokemonTypeList() {
-        let mockJSON = "{\"results\": [{\"name\": \"test\", \"url\": \"https:/teste/1\"}]}"
+        let mockJSON = "{\"data\": {\"types\": [{\"name\": \"test\", \"id\": 1}]}}"
         let client: MoyaProvider<PokemonAPI> = createProvider(
             with: mockJSON,
             statusCode: 200
@@ -39,7 +39,7 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     func test_getPokemonTypes_whenCalled_shouldProperlyMapToDTOObject() {
         
         let name: String = "Test"
-        let mockJSON = "{\"results\": [{\"name\": \"\(name)\", \"url\": \"https:/teste/1\"}]}"
+        let mockJSON = "{\"data\": {\"types\": [{\"name\": \"\(name)\", \"id\": 1}]}}"
         
         let client: MoyaProvider<PokemonAPI> = createProvider(
             with: mockJSON,
@@ -114,9 +114,9 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     }
 
     func test_getPokemonTypes_whenCalled_shouldReturnsAnEmptyPokemonTypesList() {
-        
+                let mockJSON = "{\"data\": {\"types\": []}}"
         let client: MoyaProvider<PokemonAPI> = createProvider(
-            with: "{\"results\": []}",
+            with: mockJSON,
             statusCode: 200
         )
         
@@ -139,8 +139,8 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     
     func test_getPokemonsByType_whenCalled_shouldReturnsPokemonList() {
         
-        let mockJSON = "{\"pokemon\": [{\"pokemon\" :{\"name\": \"pikachu\"}}]}"
-        
+        let mockJSON = "{\"data\": {\"pokemons\": [{\"id\": 1, \"name\": \"pikachu\", \"specy\": {\"color\":{\"name\": \"red\"}}}]}}"
+
         let client: MoyaProvider<PokemonAPI> = createProvider(
             with: mockJSON,
             statusCode: 200
@@ -165,8 +165,7 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     func test_getPokemonsByType_whenCalled_shouldProperlyMapToDTOObject() {
         
         let name: String = "Pikachu"
-        let mockJSON = "{\"pokemon\": [{\"pokemon\" :{\"name\": \"\(name)\"}}]}"
-        
+        let mockJSON = "{\"data\": {\"pokemons\": [{\"id\": 1, \"name\": \"\(name)\", \"specy\": {\"color\":{\"name\": \"red\"}}}]}}"
         let client: MoyaProvider<PokemonAPI> = createProvider(
             with: mockJSON,
             statusCode: 200
@@ -240,9 +239,9 @@ final class PokemonRemoteDataSourceTests: XCTestCase {
     }
 
     func test_getPokemonByType_whenCalled_shouldReturnsAnEmptyPokemonList() {
-        
+        let mockJSON = "{\"data\": {\"pokemons\": []}}"
         let client: MoyaProvider<PokemonAPI> = createProvider(
-            with: "{\"pokemon\": []}",
+            with: mockJSON,
             statusCode: 200
         )
         

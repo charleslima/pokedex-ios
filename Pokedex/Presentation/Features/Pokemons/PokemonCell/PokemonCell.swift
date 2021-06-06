@@ -7,11 +7,12 @@
 
 import UIKit
 import Kingfisher
-import UIImageColors
+import Culore
 
 final class PokemonCell: UITableViewCell {
     
     private let pokemon: Pokemon
+    private var needsSetupBackgroundCardView: Bool = true
     
     private lazy var backgroundCardView: UIView = {
         let backgroundCardView = UIView()
@@ -45,19 +46,9 @@ final class PokemonCell: UITableViewCell {
     private lazy var pokemonImageView: UIImageView = {
         let pokemonImageView = UIImageView()
         pokemonImageView.prepareForConstraints()
-        pokemonImageView.contentMode = .scaleAspectFill
+        pokemonImageView.contentMode = .scaleToFill
         if let imageURL = try? pokemon.imageURL.asURL() {
-            pokemonImageView.kf.setImage(with: imageURL) { result in
-                if case .success(let imageResult) = result {
-                    imageResult.image.getColors { (colors) in
-                        if let primaryColor = colors?.primary {
-                            self.backgroundCardView.backgroundColor = primaryColor
-                            self.backgroundCardView.setShadow(primaryColor, opacity: 0.4,
-                                                              offset: CGSize(width: 4, height: 4), radius: 8)
-                        }
-                    }
-                }
-            }
+            pokemonImageView.kf.setImage(with: imageURL)
         }
         return pokemonImageView
     }()
@@ -70,6 +61,11 @@ final class PokemonCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setupBackgroundCardView()
     }
     
     private func configureView() {
@@ -86,15 +82,15 @@ final class PokemonCell: UITableViewCell {
     }
     
     private func setupViewContraints() {
-        self.backgroundCardView.pinTop(16)
-        self.backgroundCardView.pinBottom(16)
+        self.backgroundCardView.pinTop(24)
+        self.backgroundCardView.pinBottom(8)
         self.backgroundCardView.pinRight(24)
         self.backgroundCardView.pinLeft(24)
         
         self.pokemonImageView.pinTop()
         self.pokemonImageView.pinRightInRelation(to: self.backgroundCardView.rightAnchor, 8)
-        self.pokemonImageView.pinBottomInRelation(to: self.backgroundCardView.bottomAnchor,
-                                                  8)
+        self.pokemonImageView.pinBottomInRelation(to: self.backgroundCardView.bottomAnchor)
+        self.pokemonImageView.constraintWidth(toAnchor: self.pokemonImageView.heightAnchor)
         
         self.watterMarkImageView.pinTop()
         self.watterMarkImageView.pinBottom()
@@ -104,6 +100,18 @@ final class PokemonCell: UITableViewCell {
         self.titleLabel.pinTop(24)
         self.titleLabel.pinLeft(16)
         
+    }
+    
+    private func setupBackgroundCardView() {
+        if self.needsSetupBackgroundCardView {
+            let topColor = UIColor.culore(pokemon.colorName) ?? .orange
+            let bottomColor = topColor.darker(by: 30) ?? .orange
+            self.backgroundCardView.setGradientBackground(topColor: topColor,
+                                                          bottomColor: bottomColor)
+            self.backgroundCardView.setShadow(bottomColor, opacity: 0.4,
+                                              offset: CGSize(width: 4, height: 4), radius: 8)
+            self.needsSetupBackgroundCardView = false
+        }
     }
     
     private func additionalConfigurations() {

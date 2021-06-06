@@ -11,7 +11,7 @@ import XCTest
 final class PokemonTypeRepositoryTests: XCTestCase {
     
     func test_getPokemonTypes_whenCalled_shouldReturnsPokemonTypeList() {
-        let mockJSON = "[{\"name\": \"test\", \"url\": \"https:/teste/1\"}]"
+        let mockJSON = "[{\"name\": \"test\", \"id\": 1}]"
         let mockResult = try! JSONDecoder().decode([PokemonTypeDTO].self,
                                                    from: mockJSON.data(using: .utf8)!)
         
@@ -32,7 +32,7 @@ final class PokemonTypeRepositoryTests: XCTestCase {
     }
     
     func test_getPokemonTypes_whenCalled_shouldProperlyMapToDomainObject() {
-        let mockJSON = "[{\"name\": \"test\", \"url\": \"https:/teste/2\"}]"
+        let mockJSON = "[{\"name\": \"test\", \"id\": 2}]"
         let mockResult = try! JSONDecoder().decode([PokemonTypeDTO].self,
                                                    from: mockJSON.data(using: .utf8)!)
         

@@ -12,7 +12,7 @@ final class PokemonsViewModelTests: XCTestCase {
     
     func test_pokemons_whenGetPokemonsByTypeIsCalled_shouldNotBeEmpty() {
         let getPokemonsUseCaseMock = GetPokemonsUseCaseMock(
-            result: .success([Pokemon(name: "test")])
+            result: .success([Pokemon(name: "test", imageURL: "teste", colorName: "red")])
         )
         
         let sut = PokemonsViewModel(getPokemonsUseCase: getPokemonsUseCaseMock)
