@@ -7,12 +7,14 @@ PODS:
     - Alamofire (~> 5.0)
   - Shimmer (1.0.2)
   - Swinject (2.7.1)
+  - UIImageColors (2.1.0)
 
 DEPENDENCIES:
   - Kingfisher
   - Moya
   - Shimmer
   - Swinject
+  - UIImageColors
 
 SPEC REPOS:
   trunk:
@@ -21,6 +23,7 @@ SPEC REPOS:
     - Moya
     - Shimmer
     - Swinject
+    - UIImageColors
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
@@ -28,7 +31,8 @@ SPEC CHECKSUMS:
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
+  UIImageColors: d2ef3b0877d203cbb06489eeb78ea8b7788caabe
 
-PODFILE CHECKSUM: e581bde27b215b93b513bea51cc84f18278aec61
+PODFILE CHECKSUM: 9cbe4f97e6800cf5da6a28e808602eaa3a87ec9b
 
 COCOAPODS: 1.10.1

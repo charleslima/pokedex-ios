@@ -17,10 +17,19 @@ final class PokemonRepositoryImpl: PokemonRepository {
         pokemonRemoteDataSource.getPokemonsBy(typeID: typeID) { (result) in
             switch result {
             case .success(let pokemonsDTOs):
-                completion(.success(pokemonsDTOs.map({ Pokemon(name: $0.name) })))
+                completion(.success(pokemonsDTOs.compactMap({ self.mapPokemon(from: $0) })))
             case .failure(let error):
                 completion(.failure(error))
             }
         }
+    }
+    
+    func mapPokemon(from PokemonDTO: PokemonDTO) -> Pokemon? {
+        guard let idString = try? PokemonDTO.url.asURL().lastPathComponent else { return nil }
+        
+        let imageURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(idString).png"
+        
+        return Pokemon(name: PokemonDTO.name,
+                       imageURL: imageURL)
     }
 }

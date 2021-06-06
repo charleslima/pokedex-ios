@@ -26,16 +26,16 @@ final class PokemonsCoordinator: Coordinator {
         self.window?.rootViewController = navigationController
     }
     
-    private func showPokemonsView(typeID: Int) {
-        let pokemonsView = container.resolve(PokemonsView.self, argument: typeID)!
+    private func showPokemonsView(type: PokemonType) {
+        let pokemonsView = container.resolve(PokemonsView.self, argument: type)!
         self.navigationController?.pushViewController(pokemonsView, animated: true)
     }
 }
 
 extension PokemonsCoordinator: PokemonTypesViewDelegate {
     
-    func userDidTapPokemonType(typeID: Int) {
-        self.showPokemonsView(typeID: typeID)
+    func userDidTapPokemonType(type: PokemonType) {
+        self.showPokemonsView(type: type)
     }
     
 }

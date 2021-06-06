@@ -8,9 +8,12 @@
 final class Pokemon {
     
     let name: String
+    let imageURL: String
     
-    init(name: String) {
+    init(name: String,
+         imageURL: String) {
         self.name = name
+        self.imageURL = imageURL
     }
     
 }

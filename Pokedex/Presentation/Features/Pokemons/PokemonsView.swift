@@ -7,18 +7,18 @@
 
 import UIKit
 
-class PokemonsView: UIViewController {
+class PokemonsView: BaseViewController {
     
     private let screen: PokemonsScreen
     private let viewModel: PokemonsViewModel
-    private let typeID: Int
+    private let type: PokemonType
     
     init(screen: PokemonsScreen,
          viewModel: PokemonsViewModel,
-         typeID: Int) {
+         type: PokemonType) {
         self.screen = screen
         self.viewModel = viewModel
-        self.typeID = typeID
+        self.type = type
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,7 +30,7 @@ class PokemonsView: UIViewController {
         super.viewDidLoad()
         self.view = screen
         self.setupBindings()
-        self.viewModel.getPokemonsBy(typeID: typeID)
+        self.viewModel.getPokemonsBy(typeID: type.id)
     }
     
     private func setupBindings() {
@@ -51,9 +51,20 @@ extension PokemonsView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = self.viewModel.pokemons[indexPath.row].name
+        let cell = PokemonCell(pokemon: self.viewModel.pokemons[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return screen.headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
     }
     
 }
