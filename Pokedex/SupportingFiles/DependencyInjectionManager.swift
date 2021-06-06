@@ -26,8 +26,8 @@ final class DependencyInjectionManager {
             return PokemonTypesScreen()
         }
         
-        self.container.register(PokemonsScreen.self) { _ in
-            return PokemonsScreen()
+        self.container.register(PokemonsScreen.self) { (_, type: PokemonType) in
+            return PokemonsScreen(type: type)
         }
     }
     
@@ -37,10 +37,10 @@ final class DependencyInjectionManager {
                                     viewModel: resolver.resolve(PokemonTypesViewModel.self)!)
         }
         
-        self.container.register(PokemonsView.self) { (resolver, typeID: Int) in
-            return PokemonsView(screen: resolver.resolve(PokemonsScreen.self)!,
+        self.container.register(PokemonsView.self) { (resolver, type: PokemonType) in
+            return PokemonsView(screen: resolver.resolve(PokemonsScreen.self, argument: type)!,
                                 viewModel: resolver.resolve(PokemonsViewModel.self)!,
-                                typeID: typeID)
+                                type: type)
         }
     }
     

@@ -9,9 +9,24 @@ import UIKit
 
 final class PokemonTypesScreen: UIView {
     
+    lazy var headerView: BaseHeaderView = {
+        return BaseHeaderView()
+    }()
+    
+    private lazy var watterMarkImageView: UIImageView = {
+        let watterMarkImageView = UIImageView()
+        watterMarkImageView.prepareForConstraints()
+        watterMarkImageView.image = UIImage(named: "dw-pokeball")
+        watterMarkImageView.contentMode = .scaleAspectFill
+        watterMarkImageView.clipsToBounds = false
+        watterMarkImageView.alpha = 0.05
+        return watterMarkImageView
+    }()
+    
     lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.prepareForConstraints()
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -32,9 +47,16 @@ final class PokemonTypesScreen: UIView {
     
     private func setupViewHierarchy() {
         self.addSubview(tableView)
+        self.tableView.backgroundView = UIView()
+        self.tableView.backgroundView?.addSubview(watterMarkImageView)
     }
     
     private func setupViewContraints() {
+        watterMarkImageView.pinTop()
+        watterMarkImageView.pinLeft()
+        watterMarkImageView.pinRight()
+        watterMarkImageView.constraintHeight(100)
+        
         tableView.pinEdgesToSuperview()
     }
     

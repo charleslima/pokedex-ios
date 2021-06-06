@@ -7,4 +7,5 @@
 
 class PokemonDTO: Decodable {
     let name: String
+    let url: String
 }

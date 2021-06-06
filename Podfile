@@ -9,6 +9,7 @@ target 'Pokedex' do
   pod 'Moya'
   pod 'Swinject'
   pod 'Shimmer'
+  pod 'UIImageColors'
   
   target 'PokedexTests' do
     inherit! :search_paths

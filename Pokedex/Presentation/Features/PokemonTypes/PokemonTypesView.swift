@@ -8,10 +8,10 @@
 import UIKit
 
 protocol PokemonTypesViewDelegate: AnyObject {
-    func userDidTapPokemonType(typeID: Int)
+    func userDidTapPokemonType(type: PokemonType)
 }
 
-class PokemonTypesView: UIViewController {
+class PokemonTypesView: BaseViewController {
     
     private let screen: PokemonTypesScreen
     private let viewModel: PokemonTypesViewModel
@@ -53,15 +53,25 @@ extension PokemonTypesView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = self.viewModel.pokemonTypes[indexPath.row].name
+        let cell = PokemonTypeCell(pokemonType: self.viewModel.pokemonTypes[indexPath.row])
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pokemonTypeID = self.viewModel.pokemonTypes[indexPath.row].id
-        self.delegate?.userDidTapPokemonType(typeID: pokemonTypeID)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 112
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let pokemonType = self.viewModel.pokemonTypes[indexPath.row]
+        self.delegate?.userDidTapPokemonType(type: pokemonType)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return screen.headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
 }
 
